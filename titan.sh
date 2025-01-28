@@ -39,6 +39,36 @@ install_node() {
     sudo cp libgoworkerd.so /usr/local/lib
     export LD_LIBRARY_PATH=$LD_LIZBRARY_PATH:./libgoworkerd.so
     titan-edge daemon start --init --url https://cassini-locator.titannet.io:5000/rpc/v0
+
+    if systemctl is-active --quiet titan.service; then
+        show "titan.service is currently running. Stopping and disabling it..."
+        sudo systemctl stop titan.service
+        sudo systemctl disable titan.service
+    else
+        show "titan.service is not running."
+    fi
+
+    cat << EOF | sudo tee /etc/systemd/system/titan.service > /dev/null
+[Unit]
+Description=Titan Network Service
+After=network.target
+
+[Service]
+WorkingDirectory=$(pwd)
+ExecStart=$(pwd) titan-edge daemon start --init --url https://cassini-locator.titannet.io:5000/rpc/v0
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+    sudo systemctl daemon-reload
+    sudo systemctl enable titan.service
+    sudo systemctl start titan.service
+    echo
+    show "Titan Network service is successfully started"
+    echo
+    read -p "Press Enter to return to the main menu..."
 }
 
 start_node() {
