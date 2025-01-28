@@ -21,7 +21,8 @@ ICON_UPDATE="🔄"
 ICON_RESTART="♻️"
 ICON_EXIT="❌"
 
-LATEST_VERSION=$(curl -s https://api.github.com/repos/Titannet-dao/titan-node/releases/latest | jq -r '.tag_name')
+#LATEST_VERSION=$(curl -s https://api.github.com/repos/Titannet-dao/titan-node/releases/latest | jq -r '.tag_name')
+LATEST_VERSION=v0.1.20 # Edge 
 print_logo() {
     curl https://raw.githubusercontent.com/cainnech01/chain_nodes/refs/heads/main/logo.sh | bash
 }
@@ -29,8 +30,8 @@ print_logo() {
 install_node() { 
     echo -e "${GREEN}🛠️  Installing or Updating Node...${RESET}"
     install_prequisites
-    
-    wget --quiet --show-progress "https://github.com/Titannet-dao/titan-node/releases/download/$LATEST_VERSION/titan-edge_${$LATEST_VERSION}_246b9dd_linux-amd64.tar.gz" -O "titan-edge_${LATEST_VERSION}_246b9dd_linux-amd64.tar.gz"
+
+    wget --quiet --show-progress "https://github.com/Titannet-dao/titan-node/releases/download/$LATEST_VERSION/titan-edge_${LATEST_VERSION}_246b9dd_linux-amd64.tar.gz" -O "titan-edge_${LATEST_VERSION}_246b9dd_linux-amd64.tar.gz"
     tar -xzf "titan-edge_${LATEST_VERSION}_246b9dd_linux-amd64.tar.gz" > /dev/null
     cd "titan-edge_${LATEST_VERSION}_246b9dd_linux-amd64" || { show "Failed to change directory."; exit 1; }
 
