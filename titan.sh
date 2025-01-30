@@ -38,7 +38,6 @@ install_node() {
     sudo cp titan-edge /usr/local/bin
     sudo cp libgoworkerd.so /usr/local/lib
     export LD_LIBRARY_PATH=$LD_LIZBRARY_PATH:./libgoworkerd.so
-    titan-edge daemon start --init --url https://cassini-locator.titannet.io:5000/rpc/v0
 
     if systemctl is-active --quiet titan.service; then
         show "titan.service is currently running. Stopping and disabling it..."
@@ -70,6 +69,14 @@ EOF
     echo
     read -p "Press Enter to return to the main menu..."
 }
+
+check_logs() {
+    echo -e "${GREEN}📄 Checking Logs...${RESET}"
+    sudo journalctl -u titan.service -f -n 50
+    echo
+    read -p "Press Enter to return to the main menu..."
+}
+
 
 start_node() {
     cd "titan-edge_${LATEST_VERSION}_246b9dd_linux-amd64" || { show "Failed to change directory."; exit 1; }
@@ -103,9 +110,10 @@ while true; do
         echo -e "    ${WHITE}Please choose an option:${RESET}"
         echo
         echo -e "    ${WHITE}1.${RESET} ${ICON_INSTALL} Install/Update Node"
-        echo -e "    ${WHITE}2.${RESET} ${ICON_STOP} Stop Node"
-        echo -e "    ${WHITE}3.${RESET} ${ICON_START} Start Node"
-        echo -e "    ${WHITE}4.${RESET} ${ICON_INSTALL} Install Prequisites"
+        echo -e "    ${WHITE}2.${RESET} ${ICON_LOGS} Check logs"
+        echo -e "    ${WHITE}3.${RESET} ${ICON_STOP} Stop Node"
+        echo -e "    ${WHITE}4.${RESET} ${ICON_START} Start Node"
+        echo -e "    ${WHITE}5.${RESET} ${ICON_INSTALL} Install Prequisites"
         echo -e "    ${WHITE}0.${RESET} ${ICON_EXIT} Exit"
         echo -ne "    ${GREEN}Enter your choice [0-6]:${RESET} "
         read choice
@@ -115,9 +123,10 @@ while true; do
 
     case $choice in
         1) install_node ;;
-        2) stop_node ;;
-        3) start_node ;;
-        4) install_prequisites ;;
+        2) check_logs ;;
+        3) stop_node ;;
+        4) start_node ;;
+        5) install_prequisites ;;
         0) echo -e "${GREEN}❌ Exiting...${RESET}"; exit 0 ;;
         *) echo -e "${RED}❌ Invalid option. Please try again.${RESET}"; sleep 2 ;;
     esac
