@@ -27,7 +27,7 @@ display_ascii() {
 }
 
 show() {
-    echo -e "\033[1;35m$1\033[0m"
+    echo -e "\033[0;32m$1\033[0m"
 }
 
 # Function to check and install jq if not present

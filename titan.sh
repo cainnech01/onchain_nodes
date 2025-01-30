@@ -27,6 +27,11 @@ print_logo() {
     curl https://raw.githubusercontent.com/cainnech01/chain_nodes/refs/heads/main/logo.sh | bash
 }
 
+show() {
+    echo -e "\033[0;32m$1\033[0m"
+}
+
+
 install_node() { 
     echo -e "${GREEN}🛠️  Installing or Updating Node...${RESET}"
     install_prequisites
@@ -34,7 +39,7 @@ install_node() {
     wget --quiet --show-progress "https://github.com/Titannet-dao/titan-node/releases/download/$LATEST_VERSION/titan-edge_${LATEST_VERSION}_246b9dd_linux-amd64.tar.gz" -O "titan-edge_${LATEST_VERSION}_246b9dd_linux-amd64.tar.gz"
     tar -xzf "titan-edge_${LATEST_VERSION}_246b9dd_linux-amd64.tar.gz" > /dev/null
     cd "titan-edge_${LATEST_VERSION}_246b9dd_linux-amd64" || { show "Failed to change directory."; exit 1; }
-
+    pwd
     sudo cp titan-edge /usr/local/bin
     sudo cp libgoworkerd.so /usr/local/lib
     export LD_LIBRARY_PATH=$LD_LIZBRARY_PATH:./libgoworkerd.so
@@ -54,7 +59,8 @@ After=network.target
 
 [Service]
 WorkingDirectory=$(pwd)
-ExecStart=$(pwd) titan-edge daemon start --init --url https://cassini-locator.titannet.io:5000/rpc/v0
+Environment="LD_LIBRARY_PATH=$LD_LIBRARY_PATH"
+ExecStart=titan-edge daemon start --init --url https://cassini-locator.titannet.io:5000/rpc/v0
 Restart=on-failure
 
 [Install]
