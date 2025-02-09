@@ -96,6 +96,7 @@ install_node_process2() {
         .chain.wallet.private_key = $priv |
         .chain.trail_head_blocks = 3 |
         .chain.registry_address = "0x3B1554f346DFe5c482Bb4BA31b880c1C18412170" |
+        .chain.snapshot_sync.starting_sub_id = 210000 |
         .chain.snapshot_syRESET.sleep = 3 |
         .chain.snapshot_syRESET.batch_size = 9500 |
         .chain.snapshot_syRESET.starting_sub_id = 200000 |
@@ -108,6 +109,7 @@ install_node_process2() {
         .chain.wallet.private_key = $priv |
         .chain.trail_head_blocks = 3 |
         .chain.registry_address = "0x3B1554f346DFe5c482Bb4BA31b880c1C18412170" |
+        .chain.snapshot_sync.starting_sub_id = 210000 |
         .chain.snapshot_syRESET.sleep = 3 |
         .chain.snapshot_syRESET.batch_size = 9500 |
         .chain.snapshot_syRESET.starting_sub_id = 200000 |
