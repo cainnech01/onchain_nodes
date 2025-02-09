@@ -1,5 +1,7 @@
 #!/bin/bash
 
+temp_file=$(mktemp)
+
 json_1=~/infernet-container-starter/deploy/config.json
 json_2=~/infernet-container-starter/projects/hello-world/container/config.json
 
@@ -20,3 +22,4 @@ jq --arg rpc "$rpc_url1" --arg priv "$private_key1" \
 
 mv $temp_file $json_2
 rm -f $temp_file
+
