@@ -23,16 +23,12 @@ ICON_EXIT="❌"
 
 display_ascii() {
     curl https://raw.githubusercontent.com/cainnech01/chain_nodes/refs/heads/main/logo.sh | bash
-    echo -e "          ${WHITE}${ICON_TELEGRAM} Follow us on Telegram!${RESET}"
 }
 
 
 show_menu() {
     clear
     display_ascii
-    echo -e "    ${WHITE}Subscribe to our channel: ${GREEN}https://t.me/dknodes${RESET}"
-    echo -e "    ${GREEN}Hello friend, you have entered the Uniswap node${RESET}"
-    echo -e "                 ${GREEN}management interface.${RESET}"
     echo -e "    ${YELLOW}Please choose an option:${RESET}"
     echo
     echo -e "    ${WHITE}1.${RESET} ${ICON_INSTALL} Install node"
@@ -66,6 +62,8 @@ install_node() {
 
         git clone https://github.com/Uniswap/unichain-node
         cd unichain-node || { echo -e "${RED}❌ Failed to enter unichain-node directory.${RESET}"; return; }
+
+        sed -i 's/^#\s*- \.env\.sepolia$/      - .env.sepolia/g' /root/unichain-node/docker-compose.yml
 
 
         if [[ -f .env.sepolia ]]; then
